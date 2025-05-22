@@ -2,6 +2,8 @@
 
 require_once '../view/userRegister.php';
 
+require_once '../controller/userRegister.php';
+
 require_once 'connection.php';
 
 
@@ -39,6 +41,15 @@ class UserRegister extends Connection
         $sql->execute(array($nome,$email,$senha));
     }
 
+    public function existeUsuario($nome, $email, $senha)
+    {
+        $pdo = $this->connection();
+        $sql = $pdo->prepare("SELECT * FROM usuario WHERE nome = ? AND email = ? AND senha = ? LIMIT 1");
+        $sql->execute(array($nome, $email, $senha));
+        $resultado = $sql->fetch();
+        return $resultado;
+    }
+
     public function selectCadastro()
     {
         $pdo = $this->conexao();
@@ -62,15 +73,6 @@ class UserRegister extends Connection
         $sql = $pdo->prepare("SELECT * FROM turma");
         $sql->execute();
         $resultado = $sql->fetchAll();
-        return $resultado;
-    }
-
-    public function buscaCadastro($id)
-    {
-        $pdo = $this->conexao();
-        $sql = $pdo->prepare("SELECT * FROM cadastro WHERE idCadastro = ?");
-        $sql->execute(array($id));
-        $resultado = $sql->fetch();
         return $resultado;
     }
 
