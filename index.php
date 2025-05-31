@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['usuario'])) {
-    header('Location: view/userLogin.php');
+    header('Location: ./src/view/UserRegister.php');
     exit();
 }
 
