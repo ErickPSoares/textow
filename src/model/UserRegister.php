@@ -1,18 +1,20 @@
 <?php
 
-spl_autoload_register(function(string $class){
-    $path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-    require $class . '.php';
-})
+namespace App\Model;
 
-/*require_once '../view/UserRegister.php';
+//use App\Model;
 
-require_once '../controller/UserRegister.php';
+require_once __DIR__ . '/../../autoload.php';
+//use Model;
+//require_once '../view/UserRegister.php';
 
-require_once 'connection.php';*/
+//require_once '../controller/UserRegister.php';
+
+//require_once 'connection.php';
 
 
-class UserRegister extends Connection
+
+class UserRegister extends \App\Model\Connection
 {
 
     private $id;
@@ -46,7 +48,7 @@ class UserRegister extends Connection
         $sql->execute(array($nome,$email,$senha));
     }
 
-    public function existeUsuario($nome, $email, $senha)
+   /* public function existeUsuario($nome, $email, $senha)
     {
         $pdo = $this->connection();
         $sql = $pdo->prepare("SELECT * FROM usuario WHERE nome = ? AND email = ? AND senha = ? LIMIT 1");
@@ -99,4 +101,5 @@ class UserRegister extends Connection
         $sql = $pdo->prepare("DELETE FROM `cadastro` WHERE idCadastro = ?");
         $sql->execute(array($id));
     }
+        */
 }
