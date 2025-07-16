@@ -2,17 +2,7 @@
 
 namespace App\Model;
 
-//use App\Model;
-
 require_once __DIR__ . '/../../autoload.php';
-//use Model;
-//require_once '../view/UserRegister.php';
-
-//require_once '../controller/UserRegister.php';
-
-//require_once 'connection.php';
-
-
 
 class UserRegister extends \App\Model\Connection
 {
