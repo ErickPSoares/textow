@@ -4,6 +4,8 @@ namespace App\Model;
 
 require_once __DIR__ . '/../../autoload.php';
 
+USE PDOException;
+
 class UserRegister extends \App\Model\Connection
 {
 
@@ -35,7 +37,21 @@ class UserRegister extends \App\Model\Connection
         $nome = $this->nome;
         $email = $this->email;
         $senha = $this->senha;
-        $sql->execute(array($nome,$email,$senha));
+        try
+        {
+            $sql->execute(array($nome,$email,$senha));
+            return null; //sucesso
+        }
+        catch(PDOException $e) 
+        {
+            if ($e->getCode() == 23000 && strpos($e->getMessage(), '1062') !== false) {
+                return "Erro: este e-mail já está cadastrado.";
+                // Aqui é possível criar o log do erro ou redirecionar o usuário
+            } else {
+                // Outros erros PDO
+                return "Erro ao cadastrar: " . $e->getMessage();
+            }
+}
     }
 
    /* public function existeUsuario($nome, $email, $senha)

@@ -27,5 +27,34 @@ require_once __DIR__ . '/../../autoload.php';
         <br><br>
         <button type="submit" name="cadastrar">Criar conta</button>
     </form>
+    <?php 
+
+        session_start();
+
+        if (isset($_SESSION['mensagem'])) {
+            $mensagem = $_SESSION['mensagem'];
+        } else {
+            $mensagem = null;
+        }
+
+        if (isset($_SESSION['mensagem_tipo'])) {
+            $tipo = $_SESSION['mensagem_tipo'];
+        } else {
+            $tipo = null;
+        }
+        if ($mensagem) 
+        {
+            if ($tipo === 'sucesso') {
+                $cor = 'green';
+            } else {
+                $cor = 'red';
+            }
+            echo '<div style="color: '.$cor.'; margin-bottom: 10px;">' . htmlspecialchars($mensagem) . '</div>';
+        } 
+        
+        // Limpa a sessão para a mensagem aparecer uma única vez
+        unset($_SESSION['mensagem']);
+        unset($_SESSION['mensagem_tipo']);
+        ?>
 </body>
 </html>
