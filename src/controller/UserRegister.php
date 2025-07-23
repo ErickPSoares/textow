@@ -8,23 +8,30 @@ session_start();
 
 $userRegister = new \App\Model\UserRegister;
 
-if (isset($_POST['cadastrar'])) {
+if (isset($_POST['cadastrar'])) 
+{
             
     $userRegister->setNome($_POST['nome']);
     $userRegister->setEmail($_POST['email']);
     $userRegister->setSenha($_POST['senha']);
 
     $retorno = $userRegister->insertUsuario();
-    if ($retorno) {
-        $_SESSION['mensagem'] = $retorno;
-        $_SESSION['mensagem_tipo'] = 'erro';
-    } else {
-        $_SESSION['mensagem'] = 'Usuário cadastrado com sucesso!';
-        $_SESSION['mensagem_tipo'] = 'sucesso';
+
+    switch ($retorno) 
+    {
+        case null:
+            $_SESSION['mensagem'] = null;
+            break;
+        case 1062:
+            $_SESSION['mensagem'] = "Erro: este e-mail já está cadastrado.";
+            break;
+        default:
+            $_SESSION['mensagem'] = "Erro ao cadastrar.";
+            break;
     }
 
     header('Location: ../view/UserRegister.php');
-    exit;
+
 }
 
 ?>

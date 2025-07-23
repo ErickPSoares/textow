@@ -40,16 +40,14 @@ class UserRegister extends \App\Model\Connection
         try
         {
             $sql->execute(array($nome,$email,$senha));
-            return null; //sucesso
+            return null; //sucesso no cadastro
         }
         catch(PDOException $e) 
         {
             if ($e->getCode() == 23000 && strpos($e->getMessage(), '1062') !== false) {
-                return "Erro: este e-mail já está cadastrado.";
-                // Aqui é possível criar o log do erro ou redirecionar o usuário
+                return 1062; //registro duplicado
             } else {
-                // Outros erros PDO
-                return "Erro ao cadastrar: " . $e->getMessage();
+                return $e->getMessage(); // Outros erros PDO
             }
 }
     }
