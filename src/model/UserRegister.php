@@ -34,12 +34,9 @@ class UserRegister extends \App\Model\Connection
     {
         $pdo = $this->connection();
         $sql = $pdo->prepare("INSERT INTO `usuario` VALUES (NULL, ?, ?, ?) ");
-        $nome = $this->nome;
-        $email = $this->email;
-        $senha = $this->senha;
         try
         {
-            $sql->execute(array($nome,$email,$senha));
+            $sql->execute(array($this->nome,$this->email,$this->senha));
             return null; //sucesso no cadastro
         }
         catch(PDOException $e) 
@@ -49,7 +46,7 @@ class UserRegister extends \App\Model\Connection
             } else {
                 return $e->getMessage(); // Outros erros PDO
             }
-}
+        }
     }
 
    /* public function existeUsuario($nome, $email, $senha)

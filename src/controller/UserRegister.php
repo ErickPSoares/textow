@@ -20,17 +20,20 @@ if (isset($_POST['cadastrar']))
     switch ($retorno) 
     {
         case null:
-            $_SESSION['mensagem'] = null;
+            $_SESSION['mensagem'] = "Usuário cadastrado com sucesso!";
+            header('Location: ../view/UserLogin.php');
             break;
         case 1062:
             $_SESSION['mensagem'] = "Erro: este e-mail já está cadastrado.";
+            header('Location: ../view/UserRegister.php');
             break;
         default:
             $_SESSION['mensagem'] = "Erro ao cadastrar.";
+            header('Location: ../view/UserRegister.php');
             break;
     }
 
-    header('Location: ../view/UserRegister.php');
+
 
 }
 
