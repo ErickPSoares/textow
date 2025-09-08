@@ -2,9 +2,11 @@
 
 namespace App\View;
 
-require_once __DIR__ . '/../../autoload.php';
+require_once __DIR__ . '/../autoload.php';
 
-session_start()
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 ?>
 
@@ -17,7 +19,7 @@ session_start()
 </head>
 <body>
     <h2>Criar Conta</h2>
-    <form action="../Controller/UserRegister.php" method="POST">
+    <form action="/index.php?route=src/Controller/UserRegister.php" method="POST">
         <label for="username">Nome:</label>
         <input type="text" id="nome" name="nome" required>
         <br><br>

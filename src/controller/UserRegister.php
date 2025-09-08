@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-require_once __DIR__ . '/../../autoload.php';
+require_once __DIR__ . '/../autoload.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $userRegister = new \App\Model\UserRegister;
 
 if (isset($_POST['cadastrar'])) 
 {
-            
     $userRegister->setNome($_POST['nome']);
     $userRegister->setEmail($_POST['email']);
     $userRegister->setSenha($_POST['senha']);
@@ -21,20 +22,17 @@ if (isset($_POST['cadastrar']))
     {
         case null:
             $_SESSION['mensagem'] = "Usuário cadastrado com sucesso!";
-            header('Location: ../view/UserLogin.php');
-            break;
+            header('Location: /index.php?route=src/view/UserLogin.php');
+            exit();
         case 1062:
             $_SESSION['mensagem'] = "Erro: este e-mail já está cadastrado.";
-            header('Location: ../view/UserRegister.php');
-            break;
+            header('Location: /index.php?route=src/view/UserRegister.php');
+            exit();
         default:
             $_SESSION['mensagem'] = "Erro ao cadastrar.";
-            header('Location: ../view/UserRegister.php');
-            break;
+            header('Location: /index.php?route=src/view/UserRegister.php');
+            exit();
     }
-
-
-
 }
 
 ?>

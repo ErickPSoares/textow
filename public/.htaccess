@@ -1,0 +1,13 @@
+
+RewriteEngine On
+
+# Evita redirecionar o próprio index.php
+RewriteCond %{REQUEST_URI} !^/index\.php$
+
+# Redireciona tudo, incluindo arquivos e diretórios existentes
+RewriteRule ^.*$ index.php [QSA,L]
+
+# (Opcional) Bloqueia acesso direto a qualquer .php exceto index.php
+<FilesMatch "^(?!index\.php$).+\.php$">
+    Require all denied
+</FilesMatch>

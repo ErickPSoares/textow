@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-require_once __DIR__ . '/../../autoload.php';
+require_once __DIR__ . '/../autoload.php';
 
 USE PDOException;
 
@@ -28,15 +28,17 @@ class UserRegister extends \App\Model\Connection
     public function setSenha($senha)
     {
         $this->senha = $senha;
+        $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
     }
 
     public function insertUsuario()
     {
         $pdo = $this->connection();
+
         $sql = $pdo->prepare("INSERT INTO `usuario` VALUES (NULL, ?, ?, ?) ");
         try
         {
-            $sql->execute(array($this->nome,$this->email,$this->senha));
+            $sql->execute(array($this->nome,$this->email, $this->senha));
             return null; //sucesso no cadastro
         }
         catch(PDOException $e) 

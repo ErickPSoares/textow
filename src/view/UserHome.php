@@ -1,10 +1,12 @@
 <?php
 
-namespace App\View;
+namespace App\src\View;
 
-require_once __DIR__ . '/../../autoload.php';
+require_once __DIR__ . '/../autoload.php';
 
-session_start()
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 ?>
 
@@ -30,7 +32,7 @@ session_start()
         }
     ?>
     
-    <form action="../controller/UserLogin.php" method="post">
+    <form action="/index.php?route=src/Controller/UserLogin.php" method="post">
     <button type="submit" name="sair">Sair</button>
     </form>
 </body>

@@ -2,38 +2,45 @@
 
 namespace App\Controller;
 
-require_once __DIR__ . '/../../autoload.php';
-
-$userLogin = new \App\Model\UserLogin;
+require_once __DIR__ . '/../autoload.php';
 
 session_start();
+
+$userLogin = new \App\Model\UserLogin;
 
 if (isset($_POST['entrar']))
 {
     $userLogin->setEmail($_POST['email']);
-    $userLogin->setSenha($_POST['senha']);
+    $senha = $_POST['senha'];
     $retorno = $userLogin->buscaUsuario();
+
+    if (!password_verify($senha,$retorno['senha']))
+    {
+        $retorno = false;
+    }
 
     switch ($retorno) 
     {
         case false:
             $_SESSION['mensagem'] = 'E-mail ou senha incorretos! Tente novamente ou realize seu cadastro.';
-            header('Location: ../view/UserLogin.php');
-            break;
+            header('Location: /index.php?route=src/view/UserLogin.php');
+            exit();
         case 'erro':
             $_SESSION['mensagem'] = 'Erro inesperado! Contate o administrador do sistema.';
-            break;
+            header('Location: /index.php?route=src/view/UserLogin.php');
+            exit();
         default:
             $_SESSION['mensagem'] = 'Login efetuado com sucesso!';
             $_SESSION['nome'] = $retorno['nome'];
-            header('Location: ../view/UserHome.php');
-            break;
+            header('Location: /index.php?route=src/view/UserHome.php');
+            exit();
     }
 }
 
 if (isset($_POST['sair']))
 {
-    unset ($_SESSION['usuario']);
+    unset($_SESSION['nome']);
     session_destroy();
-    header('Location: /textow/index.php');
+    header('Location: /index.php?route=src/view/UserLogin.php');
+    exit();
 }
