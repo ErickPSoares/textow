@@ -1,17 +1,23 @@
-
 RewriteEngine On
 
-# Exceções manuais para arquivos específicos
-RewriteCond %{REQUEST_URI} !^/public/
-
-# Evita redirecionar o próprio index.php
-RewriteCond %{REQUEST_URI} !^/index\.php$
-
-# NÃO redireciona se o arquivo físico existir
+# Se o arquivo ou diretório existe, entrega normalmente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Bloqueia acesso direto a qualquer .php exceto index.php
-<FilesMatch "^(?!index\.php$).+\.php$">
+# Tudo o que não existir vai para o index
+RewriteRule ^(.*)$ index.php?route=$1 [L,QSA]
+
+# Protege arquivos PHP fora do public
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+
+# Impede acesso direto a .php fora do public
+<FilesMatch "\.php$">
     Require all denied
 </FilesMatch>
+
+# Exceto o index.php (único arquivo executável)
+<Files "index.php">
+    Require all granted
+</Files>

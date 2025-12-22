@@ -2,12 +2,6 @@
 
 namespace App\View;
 
-require_once __DIR__ . '/../autoload.php';
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -15,11 +9,12 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/UserRegister.css">
     <title>Criar conta</title>
 </head>
 <body>
     <h2>Criar Conta</h2>
-    <form action="/index.php?route=src/Controller/UserRegister.php" method="POST">
+    <form action="/index.php?route=register" method="POST">
         <label for="username">Nome:</label>
         <input type="text" id="nome" name="nome" required>
         <br><br>
@@ -31,13 +26,9 @@ if (session_status() === PHP_SESSION_NONE) {
         <br><br>
         <button type="submit" name="cadastrar">Criar conta</button>
     </form>
+    <a href="/index.php?route=login">Entrar</a>
     <?php 
-        if (isset($_SESSION['mensagem'])) 
-        {
-            $mensagem = $_SESSION['mensagem'];
-            echo '<div>' . htmlspecialchars($mensagem) . '</div>';
-            unset($_SESSION['mensagem']);
-        }
+        echo '<div>' . htmlspecialchars($mensagem) . '</div>';
     ?>
 </body>
 </html>

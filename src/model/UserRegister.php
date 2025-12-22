@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-require_once __DIR__ . '/../autoload.php';
-
 USE PDOException;
 
 class UserRegister extends \App\Model\Connection

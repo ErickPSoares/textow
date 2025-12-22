@@ -4,6 +4,7 @@ namespace  App\Model;
 
 require_once __DIR__ . '/../autoload.php';
 
+use PDO;
 USE PDOException;
 
 class UserLogin extends \App\Model\Connection
@@ -22,7 +23,7 @@ class UserLogin extends \App\Model\Connection
         try
         {
             $sql->execute(array($this->email));
-            $resultado = $sql->fetch();
+            $resultado = $sql->fetch(PDO::FETCH_ASSOC);
             return $resultado; //sucesso na busca ou retorno false caso não encontre nada.
         }
         catch(PDOException) 

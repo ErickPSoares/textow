@@ -1,12 +1,10 @@
 <?php
 
 return [
-    'src/view/UserLogin.php',
-    'src/view/UserRegister.php',
-    'src/view/UserHome.php',
-    'src/view/UserLogout.php',
-    'src/Controller/UserLogin.php',
-    'src/Controller/UserRegister.php'
-]
+    'login'  => 'src/View/UserLogin.php',
+    'home'   => 'src/View/UserHome.php',
+    'register' => 'src/View/UserRegister.php',
+    '404'    => 'src/View/404.php',
+];
 
 ?>

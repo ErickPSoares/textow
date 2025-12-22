@@ -1,31 +1,58 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) 
-{
+require_once __DIR__ . '/../src/autoload.php';
+
+$routes = require __DIR__ . '/../src/routes.php';
+
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$permitted_routes = require_once __DIR__ . '/../src/routes.php';
+// Obtém rota da URL, ou usa "login" como padrão
+$route = $_GET['route'] ?? 'login';
 
-$route = $_GET['route'] ?? 'src/view/UserLogin.php';
-
-// proteção de rota home para não logados
-if (!isset($_SESSION['nome']) and $route === 'src/view/UserHome.php') 
+// Chama o controller correspondente a cada rota extraida da url
+switch ($route)
 {
-    header('Location: /index.php?route=src/view/UserLogin.php');
-    exit();
+case 'login':
+case 'home':
+   $userLogin = new \App\Controller\UserLoginController;
+   $retorno = $userLogin-> login();
+   $view = $retorno['view'];
+   $mensagem = $retorno['mensagem'];
+   break;
+case 'logout':
+   $userLogin = new \App\Controller\UserLoginController;
+   $retorno = $userLogin-> logout();
+   $view = $retorno['view'];
+   $mensagem = $retorno['mensagem'];
+   break;
+case 'register':
+   $userRegister = new \App\Controller\UserRegisterController;
+   $retorno = $userRegister-> register();
+   $view = $retorno['view'];
+   $mensagem = $retorno['mensagem'];
+   break;
+default:
+   $view = '404';
 }
 
-// proteção de rotas para logados
-if (isset($_SESSION['nome']) and $route === 'src/view/UserLogin.php' or isset($_SESSION['nome']) and $route === 'src/view/UserRegister.php') 
+// se o login tiver sucesso, é necessário buscar os dados de home
+if ($view == 'home')
 {
-    header('Location: /index.php?route=src/view/UserHome.php');
-    exit();
+   $userHome = new \App\Controller\UserHomeController;
+   $retorno = $userHome-> home();
+   $view = $retorno['view'];
+   $posts = $retorno['posts'];
+   $mensagem = $retorno['mensagem'];
+   $nome = $retorno['nome'];
 }
 
-if (!in_array($route, $permitted_routes)) 
+// se a rota home for escolhida, mas não tiver realizado login, manda para login.
+if($view =='home' and !isset($_SESSION['id']))
 {
-    $route = 'src/view/404.php';
+   $view = 'login';
 }
 
-require_once __DIR__ . '/../' . $route;
+// Carrega a view correspondente após verificação do fluxo
+require __DIR__ . '/../' . $routes[$view];

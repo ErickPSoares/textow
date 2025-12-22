@@ -2,12 +2,6 @@
 
 namespace App\View;
 
-require_once __DIR__ . '/../autoload.php';
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 <body>
     <h2>Login</h2>
-    <form action="/index.php?route=src/Controller/UserLogin.php" method="POST">       
+    <form action="/index.php?route=login" method="POST">       
         <label for="email">E-mail:</label>
         <input type="email" id="email" name="email" required>
         <br><br>
@@ -29,14 +23,9 @@ if (session_status() === PHP_SESSION_NONE) {
         <br><br>
         <button type="submit" name="entrar">Entrar</button>
     </form>
-    <a href="/index.php?route=src/view/UserRegister.php">Cadastre-se</a>
+    <a href="/index.php?route=register">Cadastre-se</a>
     <?php
-    if (isset($_SESSION['mensagem']))
-    {
-        $mensagem = $_SESSION['mensagem'];
         echo '<div>' . htmlspecialchars($mensagem) . '</div>';
-        unset($_SESSION['mensagem']);
-    }
     ?>
 </body>
 </html>
